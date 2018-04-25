@@ -8,7 +8,6 @@
             "email": "hit_zhenhao@163.com"
         }
     ],
-    "minimum-stability": "stable",
     "require": {
         "php": ">5.6"
     },
