@@ -7,12 +7,12 @@
 
 namespace Kinone\Bundle\Bridge\Yaf;
 
+use Kinone\Yaf\Application;
 use Kinone\Yaf\Controller_Abstract;
 use Kinone\Yaf\Dispatcher;
 use Kinone\Yaf\Registry;
 use Memcached;
 use Monolog\Logger;
-use Pimple\Container;
 use Predis\Client;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\FileBag;
@@ -21,9 +21,9 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class Controller extends Controller_Abstract
 {
     /**
-     * @var Container
+     * @var Application
      */
-    protected $container;
+    protected $app;
 
     /**
      * @var FileBag
@@ -32,7 +32,7 @@ class Controller extends Controller_Abstract
 
     public function init()
     {
-        $this->container = Registry::get('container');
+        $this->app = Application::app();
     }
 
     /**
@@ -40,7 +40,7 @@ class Controller extends Controller_Abstract
      */
     protected function logger()
     {
-        return $this->container['logger'];
+        return $this->app['logger'];
     }
 
     /**
@@ -48,7 +48,7 @@ class Controller extends Controller_Abstract
      */
     protected function memcached()
     {
-        return $this->container['memcached'];
+        return $this->app['memcached'];
     }
 
     /**
@@ -56,7 +56,7 @@ class Controller extends Controller_Abstract
      */
     protected function session()
     {
-        return $this->container['session'];
+        return $this->app['session'];
     }
 
     /**
@@ -64,7 +64,7 @@ class Controller extends Controller_Abstract
      */
     protected function redis()
     {
-        return $this->container['redis'];
+        return $this->app['redis'];
     }
 
     /**
@@ -72,7 +72,7 @@ class Controller extends Controller_Abstract
      */
     protected function stomp()
     {
-        return $this->container['stomp'];
+        return $this->app['stomp'];
     }
 
     /**

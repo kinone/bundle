@@ -6,9 +6,10 @@
  */
 namespace Kinone\Bundle\Bridge\Yaf;
 use Doctrine\DBAL\Connection;
+use Kinone\Yaf\Application;
 use Kinone\Yaf\Config_Ini;
 use Memcached;
-use Pimple\Container;
+use Predis\Client;
 use Psr\Log\LoggerInterface;
 use Stomp\StatefulStomp;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -16,13 +17,13 @@ use Symfony\Component\HttpFoundation\Session\Session;
 abstract class AbstractModel
 {
     /**
-     * @var Container
+     * @var Application
      */
-    protected $container;
+    protected $app;
 
-    public function __construct(Container $container)
+    public function __construct(Application $app)
     {
-        $this->container = $container;
+        $this->app = $app;
         $this->init();
     }
 
@@ -36,7 +37,7 @@ abstract class AbstractModel
      */
     protected function db()
     {
-        return $this->container['db'];
+        return $this->app['db'];
     }
 
     /**
@@ -44,7 +45,7 @@ abstract class AbstractModel
      */
     protected function logger()
     {
-        return $this->container['logger'];
+        return $this->app['logger'];
     }
 
     /**
@@ -52,7 +53,7 @@ abstract class AbstractModel
      */
     protected function memcached()
     {
-        return $this->container['memcached'];
+        return $this->app['memcached'];
     }
 
     /**
@@ -60,7 +61,7 @@ abstract class AbstractModel
      */
     protected function session()
     {
-        return $this->container['session'];
+        return $this->app['session'];
     }
 
     /**
@@ -68,7 +69,7 @@ abstract class AbstractModel
      */
     protected function config()
     {
-        return $this->container['yaf.config'];
+        return $this->app->getConfig();
     }
 
     /**
@@ -76,14 +77,14 @@ abstract class AbstractModel
      */
     protected function stomp()
     {
-        return $this->container['stomp'];
+        return $this->app['stomp'];
     }
 
     /**
-     * @return \Predis\Client
+     * @return Client
      */
     protected function redis()
     {
-        return $this->container['redis'];
+        return $this->app['redis'];
     }
 }
